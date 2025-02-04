@@ -31,6 +31,12 @@ const App = () => {
     }, 5000)
   }
 
+  const handleUpdateBlogs = async (returnedBlog) => {
+    const updatedBlogs = blogs.map(blog => blog.id === returnedBlog.id ? returnedBlog : blog)
+    setBlogs(updatedBlogs)
+    handleMessage(`Liked ${returnedBlog.title}`, true)
+  }
+
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser')
     setUser(null)
@@ -53,10 +59,19 @@ const App = () => {
       <div style={{ marginBottom: 20 }}>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
       </div>
-      <BlogForm blogs={blogs} setBlogs={setBlogs} handleMessage={handleMessage} />
+      <BlogForm
+        blogs={blogs}
+        setBlogs={setBlogs}
+        handleMessage={handleMessage}
+      />
       <div style={{ marginBottom: 20 }}>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleUpdateBlogs={handleUpdateBlogs}
+            handleMessage={handleMessage}
+          />
         )}
       </div>
     </div>
