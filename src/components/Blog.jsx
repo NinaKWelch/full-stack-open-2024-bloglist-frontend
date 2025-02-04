@@ -1,4 +1,6 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
+
 import blogService from '../services/blogs'
 
 const Blog = ({ blog, handleUpdateBlogs, handleRemoveBlog, handleMessage }) => {
@@ -43,6 +45,17 @@ const Blog = ({ blog, handleUpdateBlogs, handleRemoveBlog, handleMessage }) => {
       )}
     </div>  
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+  handleUpdateBlogs: PropTypes.func.isRequired,
+  handleRemoveBlog: PropTypes.func.isRequired,
+  handleMessage: PropTypes.func.isRequired
 }
 
 

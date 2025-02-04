@@ -1,6 +1,9 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
+
 import loginService from '../services/login'
-import blogService from '../services/blogs'  
+import blogService from '../services/blogs' 
+
 import Togglable from "./Togglable";
 
 const LoginForm = ({ setUser, handleMessage }) => {
@@ -56,6 +59,11 @@ const LoginForm = ({ setUser, handleMessage }) => {
       </form>
     </Togglable>
   )
+}
+
+LoginForm.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  handleMessage: PropTypes.func.isRequired
 }
 
 export default LoginForm;

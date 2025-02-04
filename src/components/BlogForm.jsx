@@ -1,8 +1,11 @@
 import { useState, useRef } from "react";
+import PropTypes from 'prop-types'
+
 import blogService from '../services/blogs'
+
 import Togglable from './Togglable'
 
-const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
+const BlogForm = ({ handleCreateBlog, handleMessage }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -18,9 +21,9 @@ const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
 
       if (newBlog) {
         blogFormRef.current.toggleVisibility()
-        handleMessage(`A new blog ${blogObject.title} by ${blogObject.author} added`, true)
-        setBlogs(blogs.concat(newBlog))
+        handleCreateBlog(newBlog)
       }
+      
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -70,6 +73,11 @@ const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
       </form>
     </Togglable>
   )
+}
+
+BlogForm.propTypes = {
+  handleCreateBlog: PropTypes.func.isRequired,
+  handleMessage: PropTypes.func.isRequired
 }
 
 export default BlogForm;

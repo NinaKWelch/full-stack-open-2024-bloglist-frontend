@@ -10,7 +10,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
 
-  useEffect(() => {console.log("USER", user)
+  useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
@@ -31,6 +31,11 @@ const App = () => {
     }, 5000)
   }
 
+  const handleCreateBlog = async (newBlog) => {
+    handleMessage(`A new blog ${newBlog.title} by ${newBlog.author} added`, true)
+    setBlogs(blogs.concat(newBlog))
+  } 
+  
   const handleUpdateBlogs = async (returnedBlog) => {
     const updatedBlogs = blogs.map(blog => blog.id === returnedBlog.id ? returnedBlog : blog)
     setBlogs(updatedBlogs)
@@ -76,8 +81,7 @@ const App = () => {
         {user.name} logged in <button onClick={handleLogout}>logout</button>
       </div>
       <BlogForm
-        blogs={blogs}
-        setBlogs={setBlogs}
+        handleCreateBlog={handleCreateBlog}
         handleMessage={handleMessage}
       />
       <div style={{ marginBottom: 20 }}>
