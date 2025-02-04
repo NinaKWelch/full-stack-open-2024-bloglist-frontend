@@ -10,12 +10,21 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [errorMessage, setErrorMessage] = useState(null)
-console.log("ERROR", errorMessage)
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
+
   
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -24,9 +33,14 @@ console.log("ERROR", errorMessage)
       const user = await loginService.login({
         username, password,
       })
-      console.log("USER", user)
 
-      setUser(user)
+      if (user) {
+        setUser(user)
+        window.localStorage.setItem(
+          'loggedNoteappUser', JSON.stringify(user)
+        ) 
+      }
+     
       setUsername('')
       setPassword('')
     // eslint-disable-next-line no-unused-vars
@@ -36,6 +50,11 @@ console.log("ERROR", errorMessage)
         setErrorMessage(null)
       }, 5000)
     }
+  }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedNoteappUser')
+    setUser(null)
   }
 
   if (user === null) {
@@ -71,7 +90,7 @@ console.log("ERROR", errorMessage)
   return (
     <div>
       <h2>blogs</h2>
-      {user.name} logged in <button>logout</button>
+      {user.name} logged in <button onClick={handleLogout}>logout</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
