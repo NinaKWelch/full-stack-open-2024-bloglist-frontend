@@ -42,6 +42,8 @@ const App = () => {
     setUser(null)
   }
 
+  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+
   if (user === null) {
     return (
       <div>
@@ -65,7 +67,7 @@ const App = () => {
         handleMessage={handleMessage}
       />
       <div style={{ marginBottom: 20 }}>
-        {blogs.map(blog =>
+        {sortedBlogs.map(blog =>
           <Blog
             key={blog.id}
             blog={blog}
