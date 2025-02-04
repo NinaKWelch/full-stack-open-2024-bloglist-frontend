@@ -37,6 +37,20 @@ const App = () => {
     handleMessage(`Liked ${returnedBlog.title}`, true)
   }
 
+  const handleRemoveBlog = async (blogToDelete) => {
+    if (window.confirm(`Remove blog ${blogToDelete.title} by ${blogToDelete.author}`)) {
+      try {
+        await blogService.remove(blogToDelete.id)
+        handleMessage(`Removed ${blogToDelete.title}`, true)
+        setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+    
+      // eslint-disable-next-line no-unused-vars
+      } catch (exception) {
+        handleMessage('Failed to remove blog', false)
+      }
+    }
+  }
+
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser')
     setUser(null)
@@ -72,6 +86,7 @@ const App = () => {
             key={blog.id}
             blog={blog}
             handleUpdateBlogs={handleUpdateBlogs}
+            handleRemoveBlog={handleRemoveBlog}
             handleMessage={handleMessage}
           />
         )}

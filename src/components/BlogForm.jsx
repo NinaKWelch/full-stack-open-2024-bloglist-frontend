@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import blogService from '../services/blogs'
+import Togglable from './Togglable'
 
 const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [open, setOpen] = useState(false)
-
-  const toggleIsOpen = () => setOpen(!open)
+  const blogFormRef = useRef()
 
   const handleCreate = async (event) => {
     event.preventDefault()
@@ -18,9 +17,9 @@ const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
       const newBlog = await blogService.create(blogObject)
 
       if (newBlog) {
+        blogFormRef.current.toggleVisibility()
         handleMessage(`A new blog ${blogObject.title} by ${blogObject.author} added`, true)
         setBlogs(blogs.concat(newBlog))
-        toggleIsOpen()  
       }
       setTitle('')
       setAuthor('')
@@ -31,13 +30,9 @@ const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
     }
   } 
 
-
-
   return (
-    <div style={{ marginBottom: 20 }}>
-      {!open && <button onClick={toggleIsOpen}>Create new</button>}
-      {open && (
-        <form onSubmit={handleCreate}>
+    <Togglable buttonLabel="create new" ref={blogFormRef}>
+      <form onSubmit={handleCreate}>
         <div>
           title:{' '}
           <input
@@ -65,12 +60,15 @@ const BlogForm = ({ blogs, setBlogs, handleMessage }) => {
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <div><button type="submit">create</button></div>
-        <div><button onClick={toggleIsOpen}>cancel</button></div>
+        <button type="submit">create</button>
+        <button
+          type="button"
+          onClick={() => blogFormRef.current.toggleVisibility}
+        >
+          cancel
+        </button>
       </form>
-      )}
-
-    </div>
+    </Togglable>
   )
 }
 

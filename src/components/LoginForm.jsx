@@ -1,10 +1,11 @@
 import { useState } from "react";
 import loginService from '../services/login'
 import blogService from '../services/blogs'  
+import Togglable from "./Togglable";
 
 const LoginForm = ({ setUser, handleMessage }) => {
   const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -31,27 +32,29 @@ const LoginForm = ({ setUser, handleMessage }) => {
   }
     
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username:{' '}
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password:{' '}
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Togglable buttonLabel="login">
+      <form onSubmit={handleLogin}>
+        <div>
+          username:{' '}
+            <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password:{' '}
+            <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </Togglable>
   )
 }
 
