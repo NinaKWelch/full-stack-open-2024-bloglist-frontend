@@ -33,7 +33,12 @@ const App = () => {
 
   const handleCreateBlog = async (newBlog) => {
     handleMessage(`A new blog ${newBlog.title} by ${newBlog.author} added`, true)
-    setBlogs(blogs.concat(newBlog))
+    setBlogs(blogs.concat(
+      {
+        ...newBlog,
+        user: { name: user.name, username: user.username }
+      }
+    ))
   } 
   
   const handleUpdateBlogs = async (returnedBlog) => {
@@ -92,6 +97,7 @@ const App = () => {
             handleUpdateBlogs={handleUpdateBlogs}
             handleRemoveBlog={handleRemoveBlog}
             handleMessage={handleMessage}
+            enableDelete={user.username === blog.user?.username}
           />
         )}
       </div>

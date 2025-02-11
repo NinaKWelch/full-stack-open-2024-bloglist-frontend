@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, handleUpdateBlogs, handleRemoveBlog, handleMessage }) => {
+const Blog = ({ blog, handleUpdateBlogs, handleRemoveBlog, handleMessage, enableDelete }) => {
   const [show, setShow] = useState(false)
 
   const blogStyle = {
@@ -40,7 +40,7 @@ const Blog = ({ blog, handleUpdateBlogs, handleRemoveBlog, handleMessage }) => {
           <div>{blog.url}</div>
           <div>likes: {blog.likes} <button onClick={handleLikes}>like</button></div>
           <div>{blog.user.username}</div>
-          <button onClick={() => handleRemoveBlog(blog)}>remove</button>
+          {enableDelete && <button onClick={() => handleRemoveBlog(blog)}>remove</button>}
         </div>  
       )}
     </div>  
