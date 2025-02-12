@@ -25,6 +25,10 @@ const App = () => {
   }, [])
 
   const handleMessage = (text, success) => {
+    if (message) {
+      setMessage(null)
+    }
+    
     setMessage({ text, success })
     setTimeout(() => {
       setMessage(null)
@@ -89,7 +93,7 @@ const App = () => {
         handleCreateBlog={handleCreateBlog}
         handleMessage={handleMessage}
       />
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 }} data-testid="blogs">
         {sortedBlogs.map(blog =>
           <Blog
             key={blog.id}
