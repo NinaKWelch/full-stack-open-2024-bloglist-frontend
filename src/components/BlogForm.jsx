@@ -36,7 +36,7 @@ const BlogForm = ({ handleCreateBlog, handleMessage }) => {
   return (
     <Togglable buttonLabel="create new" ref={blogFormRef}>
       <form onSubmit={handleCreate}>
-        <div>
+        <label>
           title:{' '}
           <input
             type="text"
@@ -44,8 +44,8 @@ const BlogForm = ({ handleCreateBlog, handleMessage }) => {
             data-testid='title'
             onChange={({ target }) => setTitle(target.value)}
           />
-        </div>
-        <div>
+        </label>
+        <label>
           author:{' '}
           <input
             type="text"
@@ -53,8 +53,8 @@ const BlogForm = ({ handleCreateBlog, handleMessage }) => {
             data-testid='author'
             onChange={({ target }) => setAuthor(target.value)}
           />
-        </div>
-        <div>
+        </label>
+        <label>
           url:{' '}
           <input
             type="text"
@@ -62,7 +62,7 @@ const BlogForm = ({ handleCreateBlog, handleMessage }) => {
             data-testid='url'
             onChange={({ target }) => setUrl(target.value)}
           />
-        </div>
+        </label>
         <button type="submit">create</button>
         <button
           type="button"

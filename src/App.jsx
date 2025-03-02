@@ -65,6 +65,22 @@ const App = () => {
     }
   }
 
+  const handleLikes = async (blog) => {
+    const updatedBlog = { ...blog, likes: blog.likes + 1 }
+  
+    try {
+      const returnedBlog = await blogService.update(updatedBlog)
+
+      if (returnedBlog) {
+        handleUpdateBlogs(returnedBlog) 
+      }
+      
+    // eslint-disable-next-line no-unused-vars
+    } catch (exception) {
+      handleMessage('Failed to update blog', false)
+    }
+  }
+
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser')
     setUser(null)
@@ -98,9 +114,8 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
-            handleUpdateBlogs={handleUpdateBlogs}
+            handleLikes={handleLikes}
             handleRemoveBlog={handleRemoveBlog}
-            handleMessage={handleMessage}
             enableDelete={user.username === blog.user?.username}
           />
         )}
